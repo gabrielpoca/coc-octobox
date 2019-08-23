@@ -45,16 +45,25 @@ class Notifications {
     ];
   }
 
-  async loadItems(_context) {
-    const result = await this.axios.get("notifications.json?per_page=100");
+  async loadItems(context) {
+    const filters = (context.args || []).reduce((memo, arg) => {
+      const [key, values, ..._] = arg.split(":");
+      memo[key] = values.split(",");
+      return memo;
+    }, {});
+    const filterKeys = Object.keys(filters);
 
-    return result.data.notifications
-      .filter(({ archived }) => !archived)
-      .map(notif => ({ ...notif, updated_at: new Date(notif.updated_at) }))
-      .sort(({ updated_at }) => updated_at)
-      .map(notif => {
-        return { label: this.buildLabel(notif), data: notif };
-      });
+    const response = await this.axios.get("notifications.json?per_page=100");
+
+    return response.data.notifications
+      .map(notif => ({ ...notif, state: notif.subject.state }))
+      .filter(notif =>
+        filterKeys.every(
+          key => filters[key].indexOf(notif[key].toString()) !== -1
+        )
+      )
+      .sort(({ updated_at }) => new Date(updated_at))
+      .map(notif => ({ label: this.buildLabel(notif), data: notif }));
   }
 
   buildLabel({ subject, unread, reason }) {

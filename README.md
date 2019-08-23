@@ -28,3 +28,11 @@ To show the list of notification run `:CocList octobox`. You can give this comma
 ```
 nnoremap <Leader>gn :CocList octobox<CR>
 ```
+
+You can also pass in filters, sort of like you do in Octobox, for instance:
+
+```
+:CocList octobox state:closed,merged archived:false	
+```
+
+For now, **only** _state_ and _archived_ are supported.
