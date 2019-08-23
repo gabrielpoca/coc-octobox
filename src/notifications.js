@@ -53,7 +53,6 @@ class Notifications {
       .map(notif => ({ ...notif, updated_at: new Date(notif.updated_at) }))
       .sort(({ updated_at }) => updated_at)
       .map(notif => {
-        console.log(notif);
         return { label: this.buildLabel(notif), data: notif };
       });
   }
