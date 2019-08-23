@@ -30,9 +30,17 @@ nnoremap <Leader>gn :CocList octobox<CR>
 ```
 
 You can also pass in filters, sort of like you do in Octobox, for instance:
-
 ```
 :CocList octobox state:closed,merged archived:false	
 ```
-
 For now, **only** _state_ and _archived_ are supported.
+
+You can also show the notification count in the status bar, just enable add the
+following to your configuration:
+
+```
+...
+  "octobox.showInStatusBar": true,
+  "octobox.iconForStatusBar": "☀︎" // this one is optionl
+...
+```

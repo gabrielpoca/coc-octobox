@@ -19,7 +19,20 @@
     "commands": [],
     "configuration": {
       "title": "octobox",
-      "properties": {}
+      "properties": {
+        "octobox.iconForStatusBar": {
+          "type": "boolean",
+          "default": "♢",
+          "description": "The icon to use next to the status bar",
+          "scope": "resource"
+        },
+        "octobox.showInStatusBar": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show in status bar",
+          "scope": "resource"
+        }
+      }
     }
   },
   "dependencies": {

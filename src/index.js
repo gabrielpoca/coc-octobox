@@ -4,6 +4,7 @@ const { Notifications } = require("./notifications");
 
 exports.activate = context => {
   const { subscriptions } = context;
+  const config = workspace.getConfiguration("octobox");
 
   const baseURL = process.env.OCTOBOX_URL;
   const token = process.env.OCTOBOX_TOKEN;
@@ -29,6 +30,8 @@ exports.activate = context => {
   });
 
   subscriptions.push(
-    listManager.registerList(new Notifications(axiosInstance, workspace))
+    listManager.registerList(
+      new Notifications(axiosInstance, workspace, config)
+    )
   );
 };

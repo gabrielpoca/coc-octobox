@@ -1,14 +1,23 @@
 const child_process = require("child_process");
 
+function wait(ms) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve();
+    }, ms);
+  });
+}
+
 class Notifications {
-  constructor(axios, workspace, nvim) {
+  constructor(axios, workspace, config) {
     this.name = "octobox";
     this.description = "octobox notifications list";
     this.defaultAction = "open";
     this.actions = [];
     this.axios = axios;
-    this.nvim = nvim;
+    this.config = config;
     this.workspace = workspace;
+    this.statusItem = workspace.createStatusBarItem(0);
 
     this.actions = [
       {
@@ -27,6 +36,7 @@ class Notifications {
         persist: true,
         reload: true,
         execute: item => {
+          this.updateStatusBar();
           return this.axios
             .post(`/notifications/archive_selected.json?id=${item.data.id}`)
             .catch(e => console.error(e));
@@ -43,6 +53,9 @@ class Notifications {
         }
       }
     ];
+
+    setInterval(() => this.updateStatusBar(), 30000);
+    setTimeout(() => this.updateStatusBar(), 2000);
   }
 
   async loadItems(context) {
@@ -94,6 +107,20 @@ class Notifications {
     nvim.resumeNotification().catch(_e => {
       // noop
     });
+  }
+
+  async updateStatusBar() {
+    if (!this.config.get("showInStatusBar")) return;
+
+    const response = await this.axios.get("notifications/unread_count.json");
+    const { count } = response.data;
+
+    if (count) {
+      this.statusItem.text = `${this.config.get("iconForStatusBar")} ${count} `;
+      this.statusItem.show();
+    } else {
+      this.statusItem.hide();
+    }
   }
 }
 
