@@ -1,6 +1,6 @@
 # coc-octobox
 
-coc-octobox is a [coc.nvim](https://github.com/neoclide/coc.nvim) extension to interact with [Octobox](https://octobox.io/).
+coc-octobox is a [coc.nvim](https://github.com/neoclide/coc.nvim) for [Octobox](https://octobox.io/).
 
 It supports:
 * showing and filtering the notifications list.
