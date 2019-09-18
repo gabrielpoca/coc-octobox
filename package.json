@@ -21,7 +21,7 @@
       "title": "octobox",
       "properties": {
         "octobox.iconForStatusBar": {
-          "type": "boolean",
+          "type": "string",
           "default": "♢",
           "description": "The icon to use next to the status bar",
           "scope": "resource"
