@@ -112,13 +112,20 @@ class Notifications {
   async updateStatusBar() {
     if (!this.config.get("showInStatusBar")) return;
 
-    const response = await this.axios.get("notifications/unread_count.json");
-    const { count } = response.data;
+    try {
+      const response = await this.axios.get("notifications/unread_count.json");
+      const { count } = response.data;
 
-    if (count) {
-      this.statusItem.text = `${this.config.get("iconForStatusBar")} ${count} `;
-      this.statusItem.show();
-    } else {
+      if (count) {
+        this.statusItem.text = `${this.config.get(
+          "iconForStatusBar"
+        )} ${count} `;
+        this.statusItem.show();
+      } else {
+        this.statusItem.hide();
+      }
+    } catch (e) {
+      // we probably don't have internet, let's just hide the notification count
       this.statusItem.hide();
     }
   }
