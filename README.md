@@ -13,6 +13,12 @@ It supports:
 Just install it like any other [coc.nvim extension](https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions#install-extensions), for instance:
 
 ```
+:CocInstall coc-octobox
+```
+
+or
+
+```
 :CocInstall https://github.com/gabrielpoca/coc-octobox
 ```
 
