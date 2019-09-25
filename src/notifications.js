@@ -46,8 +46,13 @@ class Notifications {
       }
     ];
 
-    setInterval(() => this.updateStatusBar(), 30000);
+    this.interval = setInterval(() => this.updateStatusBar(), 30000);
     setTimeout(() => this.updateStatusBar(), 2000);
+  }
+
+  dispose() {
+    this.statusItem.hide();
+    clearInterval(this.interval);
   }
 
   async loadItems(context) {
