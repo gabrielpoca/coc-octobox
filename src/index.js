@@ -1,4 +1,4 @@
-const { commands, workspace, listManager } = require("coc.nvim");
+const { workspace, listManager } = require("coc.nvim");
 const axios = require("axios");
 const { Notifications } = require("./notifications");
 

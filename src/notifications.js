@@ -1,13 +1,5 @@
 const child_process = require("child_process");
 
-function wait(ms) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve();
-    }, ms);
-  });
-}
-
 class Notifications {
   constructor(axios, workspace, config) {
     this.name = "octobox";
