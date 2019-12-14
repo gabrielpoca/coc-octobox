@@ -77,17 +77,25 @@ class Notifications {
   }
 
   buildLabel({ subject, unread, reason }) {
+    const state = subject.state ? subject.state + " " : "";
+    const author = subject.author ? "*" + subject.author + "* " : "";
+
     return `${unread ? "unread" : "read"} ${
       subject.type === "PullRequest" ? "PR" : subject.type
-    } ${subject.state} ${subject.title} ${reason}`;
+    } ${state}${subject.title} ${author}${reason}`;
   }
 
   doHighlight() {
     const { nvim } = this.workspace;
 
     nvim.pauseNotification();
+    nvim.command(`syntax match CocOctoboxLine /^.*$/ contained`, true);
     nvim.command(
       `syntax keyword CocOctoboxMerged merged contained containedin=CocOctoboxLine`,
+      true
+    );
+    nvim.command(
+      `syntax keyword CocOctoboxMerged closed contained containedin=CocOctoboxLine`,
       true
     );
     nvim.command(
@@ -98,8 +106,10 @@ class Notifications {
       `syntax match CocOctoboxRead /^read\ .*/ contained containedin=CocOctoboxLine`,
       true
     );
+
     nvim.command("highlight default link CocOctoboxRead Comment", true);
     nvim.command("highlight default link CocOctoboxMerged Constant", true);
+    nvim.command("highlight default link CocOctoboxAuthor Comment", true);
     nvim.command("highlight default link CocOctoboxOpen String", true);
     nvim.resumeNotification().catch(_e => {
       // noop
